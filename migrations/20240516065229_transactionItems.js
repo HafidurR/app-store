@@ -3,15 +3,11 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  return knex.schema.createTable('products', function(t) {
+  return knex.schema.createTable('transactionItems', function(t) {
     t.increments('id');
-    t.integer('category_id').notNullable().references('id').inTable('categories');
-    t.string('name');
-    t.integer('stock');
-    t.integer('price');
-    t.text('description');
-    t.enum('status');
-    t.integer('sold');
+    t.integer('product_id').notNullable().references('id').inTable('products');
+    t.integer('quantity');
+    t.integer('subtotal');
     t.dateTime('createdAt').defaultTo(knex.fn.now());
     t.dateTime('updatedAt').defaultTo(knex.fn.now());
   })
@@ -22,5 +18,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTable('products')
+  return knex.schema.dropTable('transactioinItems')
 };

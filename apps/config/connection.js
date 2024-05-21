@@ -1,16 +1,16 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
+require('dotenv').config();
 const { NODE_ENV } = process.env;
-import { development as developmentConfig, production as productionConfig } from '../../knexfile.js';
+const config = require('../../knexfile');
 
-const knexConfig = (NODE_ENV === 'development') ? developmentConfig : productionConfig;
+// module.exports = (NODE_ENV == 'development') ? require('knex')(config.development) : require('knex')(config.production);
 
+const knexConfig = (NODE_ENV === 'development') ? config.development : config.production;
+
+// Enable query logging in development environment
 if (NODE_ENV === 'development') {
   knexConfig.debug = true;
 }
 
-import knexLibrary from 'knex';
-const knex = knexLibrary(knexConfig);
+const knex = require('knex')(knexConfig);
 
-export default knex;
+module.exports = knex;
